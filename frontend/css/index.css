@@ -1,0 +1,152 @@
+/* css/index.css */
+:root {
+    /* Color Palette */
+    --color-wood: #3E2723;
+    --color-wood-light: #5D4037;
+    --color-metal-light: #B0BEC5;
+    --color-metal-dark: #78909C;
+    --color-accent: #B87333; /* Copper */
+    --color-accent-hover: #A06028;
+    --color-bg: #F9F9F9;
+    --color-white: #FFFFFF;
+    --color-text: #212121;
+    --color-text-light: #757575;
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+
+    /* Borders & Shadows */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-wood);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Utilities */
+.view {
+    display: none;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.view.active-view {
+    display: block;
+    animation: fadeIn var(--transition-normal) forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-content {
+    flex-grow: 1;
+    padding-top: 80px; /* Offset for fixed header */
+    min-height: calc(100vh - 80px);
+}
+
+.view__header {
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.view__header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.view__header p {
+    color: var(--color-text-light);
+    font-size: 1.125rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    text-align: center;
+    transition: all var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.btn--primary {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+.btn--primary:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:disabled {
+    background-color: var(--color-metal-light);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn--full {
+    width: 100%;
+}
