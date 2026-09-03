@@ -103,8 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const div = document.createElement('div');
             div.classList.add('cart-item');
+            const imgSrc = (item.image && (item.image.startsWith('http') || item.image.startsWith('./')))
+                ? item.image 
+                : (item.image && item.image.startsWith('/img/') 
+                    ? (window.location.port === '3000' ? item.image : `http://localhost:3000${item.image}`) 
+                    : './img/logocreart.png');
             div.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="cart-item__img">
+                <img src="${imgSrc}" alt="${item.name}" class="cart-item__img" onerror="this.src='./img/logocreart.png'">
                 <div class="cart-item__details">
                     <h4 class="cart-item__title">${item.name}</h4>
                     <p class="cart-item__price">$${item.price}</p>

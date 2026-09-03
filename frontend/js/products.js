@@ -4,12 +4,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const featuredGrid = document.getElementById('featured-grid');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
+    function resolveImageUrl(imagePath) {
+        if (!imagePath) return './img/logocreart.png';
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
+            return imagePath;
+        }
+        if (imagePath.startsWith('./img/')) {
+            return imagePath;
+        }
+        if (imagePath.startsWith('/img/')) {
+            return window.location.port === '3000' ? imagePath : `http://localhost:3000${imagePath}`;
+        }
+        return `http://localhost:3000/img/${imagePath}`;
+    }
+
     // Render Product Card
     function createProductCard(product) {
         const card = document.createElement('div');
         card.classList.add('product-card');
+        const imgSrc = resolveImageUrl(product.image);
         card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-card__img" loading="lazy">
+            <img src="${imgSrc}" alt="${product.name}" class="product-card__img" loading="lazy" onerror="this.src='./img/logocreart.png'">
             <div class="product-card__content">
                 <span class="product-card__material">${product.category}</span>
                 <h3 class="product-card__title">${product.name}</h3>

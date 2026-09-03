@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prodPriceInput = document.getElementById('prod-price');
     const prodCategoryInput = document.getElementById('prod-category');
     const prodImageInput = document.getElementById('prod-image');
+    const imageCurrentInfo = document.getElementById('image-current-info');
     const prodDescInput = document.getElementById('prod-desc');
 
     // URL BASE ESTRICTA
@@ -46,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
 
-            // Verificamos si la respuesta es texto plano/HTML en lugar de JSON
             const textResponse = await res.text();
             let data;
             try {
@@ -70,17 +70,24 @@ document.addEventListener('DOMContentLoaded', () => {
             loginError.classList.remove('hidden');
         }
     });
+
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('token');
         checkAuthStatus();
     });
 
-    function getAuthHeaders() {
-        const token = localStorage.getItem('token');
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
+    function resolveImageUrl(imagePath) {
+        if (!imagePath) return './img/logocreart.png';
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
+            return imagePath;
+        }
+        if (imagePath.startsWith('./img/')) {
+            return imagePath;
+        }
+        if (imagePath.startsWith('/img/')) {
+            return window.location.port === '3000' ? imagePath : `http://localhost:3000${imagePath}`;
+        }
+        return `http://localhost:3000/img/${imagePath}`;
     }
 
     async function fetchProducts() {
@@ -99,9 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
         productsTableBody.innerHTML = '';
         products.forEach(product => {
             const tr = document.createElement('tr');
+            const imgSrc = resolveImageUrl(product.image);
             tr.innerHTML = `
                 <td>${product.id}</td>
-                <td><img src="${product.image}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;"></td>
+                <td><img src="${imgSrc}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;" onerror="this.src='./img/logocreart.png'"></td>
                 <td><strong>${product.name}</strong></td>
                 <td>$${product.price}</td>
                 <td><span style="text-transform: capitalize; background: #EEF2FF; color: #4F46E5; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">${product.category}</span></td>
@@ -130,8 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
         prodNameInput.value = product.name;
         prodPriceInput.value = product.price;
         prodCategoryInput.value = product.category;
-        prodImageInput.value = product.image;
-        prodDescInput.value = product.description;
+        
+        // Limpiamos el input file para no causar error DOMException
+        prodImageInput.value = '';
+        if (imageCurrentInfo) {
+            const filename = product.image ? product.image.split('/').pop() : 'sin imagen';
+            imageCurrentInfo.innerHTML = `📷 <strong>Imagen actual:</strong> ${filename} <br><span style="color: #6B7280; font-size: 0.75rem;">(Selecciona un archivo solo si deseas cambiarla)</span>`;
+            imageCurrentInfo.classList.remove('hidden');
+        }
+
+        prodDescInput.value = product.description || '';
 
         productForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -143,58 +159,80 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetForm() {
         productForm.reset();
         prodIdInput.value = '';
+        prodImageInput.value = '';
+        if (imageCurrentInfo) {
+            imageCurrentInfo.innerHTML = '';
+            imageCurrentInfo.classList.add('hidden');
+        }
         formTitle.textContent = 'Nuevo Producto';
         cancelEditBtn.classList.add('hidden');
     }
 
+    // ENVÍO DEL FORMULARIO CON MULTIPART/FORM-DATA
     productForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const productData = {
-            name: prodNameInput.value,
-            price: Number(prodPriceInput.value),
-            category: prodCategoryInput.value,
-            image: prodImageInput.value,
-            description: prodDescInput.value
-        };
+        const formData = new FormData();
+        formData.append('name', prodNameInput.value.trim());
+        formData.append('price', prodPriceInput.value);
+        formData.append('category', prodCategoryInput.value);
+        formData.append('description', prodDescInput.value.trim());
+
+        // Anexar archivo de imagen solo si se seleccionó uno
+        if (prodImageInput.files && prodImageInput.files[0]) {
+            formData.append('image', prodImageInput.files[0]);
+        }
 
         const id = prodIdInput.value;
         const method = id ? 'PUT' : 'POST';
         const url = id ? `${API_URL}/products/${id}` : `${API_URL}/products`;
 
+        const token = localStorage.getItem('token');
+
         try {
+            // Se envía FormData sin header Content-Type para que el navegador asigne multipart/form-data automáticamente con su boundary
             const res = await fetch(url, {
                 method: method,
-                headers: getAuthHeaders(),
-                body: JSON.stringify(productData)
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
             });
 
             if (res.ok) {
                 resetForm();
                 fetchProducts();
             } else {
-                const error = await res.json();
+                let errorMsg = 'Error al guardar el producto';
+                try {
+                    const error = await res.json();
+                    errorMsg = error.error || errorMsg;
+                } catch (_) {}
+
                 if (res.status === 401 || res.status === 403) {
                     alert('Tu sesión ha expirado o no tienes permisos.');
                     localStorage.removeItem('token');
                     checkAuthStatus();
                 } else {
-                    alert('Error: ' + error.error);
+                    alert('Error: ' + errorMsg);
                 }
             }
         } catch (error) {
             console.error('Error guardando producto:', error);
-            alert('Error de conexión.');
+            alert('Error de conexión con el servidor.');
         }
     });
 
     async function deleteProduct(id) {
         if (!confirm('¿Estás seguro de que deseas eliminar este producto permanentemente?')) return;
 
+        const token = localStorage.getItem('token');
         try {
             const res = await fetch(`${API_URL}/products/${id}`, {
                 method: 'DELETE',
-                headers: getAuthHeaders()
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (res.ok) {

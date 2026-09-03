@@ -33,7 +33,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 1500,
                                 category: "madera",
                                 description: "Llavero de madera natural con grabado láser personalizado. Ideal para regalos corporativos o souvenirs.",
-                                image: "./img/prod-llavero.svg"
+                                image: "./img/logocreart.png"
                             },
                             {
                                 id: 2,
@@ -41,7 +41,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 2200,
                                 category: "metal",
                                 description: "Placa de acero inoxidable grabada en ambas caras. Resistente y duradera.",
-                                image: "./img/prod-placa.svg"
+                                image: "./img/logocreart.png"
                             },
                             {
                                 id: 3,
@@ -49,7 +49,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 8500,
                                 category: "madera",
                                 description: "Tabla de madera de bambú con grabado de iniciales o logos. Perfecta para asados.",
-                                image: "./img/prod-tabla.svg"
+                                image: "./img/logocreart.png"
                             },
                             {
                                 id: 4,
@@ -57,7 +57,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 12000,
                                 category: "metal",
                                 description: "Mate uruguayo con virola de alpaca grabada a fuego. Un clásico reinventado.",
-                                image: "./img/prod-mate.svg"
+                                image: "./img/logocreart.png"
                             },
                             {
                                 id: 5,
@@ -65,7 +65,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 6500,
                                 category: "madera",
                                 description: "Caja organizadora de té en madera MDF con tapa grabada.",
-                                image: "./img/prod-caja.svg"
+                                image: "./img/logocreart.png"
                             },
                             {
                                 id: 6,
@@ -73,7 +73,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                                 price: 18000,
                                 category: "metal",
                                 description: "Termo de acero inoxidable de 1 litro con grabado 360 grados.",
-                                image: "./img/prod-termo.svg"
+                                image: "./img/logocreart.png"
                             }
                         ];
 
