@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,12 +34,23 @@
         }
 
         /* Utilidades */
-        .hidden { display: none !important; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        
+        .hidden {
+            display: none !important;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
         /* Tipografía */
-        h1, h2 { color: var(--text-main); margin-bottom: 1.5rem; }
-        
+        h1,
+        h2 {
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
         /* Botones */
         .btn {
             background-color: var(--primary);
@@ -51,13 +63,30 @@
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
-        .btn:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
-        .btn-danger { background-color: var(--danger); }
-        .btn-danger:hover { background-color: var(--danger-hover); }
-        .btn-small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
 
         /* Formularios */
-        .form-group { margin-bottom: 1.25rem; }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
@@ -65,6 +94,7 @@
             font-size: 0.875rem;
             color: var(--text-main);
         }
+
         .form-control {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -74,6 +104,7 @@
             font-size: 0.875rem;
             background-color: #F9FAFB;
         }
+
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
@@ -89,6 +120,7 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
         }
+
         .login-card {
             background: var(--surface);
             padding: 3rem;
@@ -97,12 +129,18 @@
             width: 100%;
             max-width: 400px;
         }
-        .login-card h2 { text-align: center; color: var(--text-main); margin-bottom: 2rem; }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
 
         /* Panel de Control */
         #admin-section {
             padding-top: 2rem;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -113,7 +151,11 @@
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .header h1 { margin: 0; font-size: 1.5rem; }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
 
         .dashboard-grid {
             display: grid;
@@ -139,15 +181,19 @@
         .table-responsive {
             overflow-x: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
         }
-        th, td {
+
+        th,
+        td {
             padding: 1rem;
             border-bottom: 1px solid var(--border);
         }
+
         th {
             background-color: #F9FAFB;
             font-weight: 600;
@@ -156,14 +202,20 @@
             font-size: 0.75rem;
             letter-spacing: 0.05em;
         }
-        tbody tr { transition: background-color 0.2s; }
-        tbody tr:hover { background-color: #F9FAFB; }
-        
+
+        tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #F9FAFB;
+        }
+
         .actions {
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .alert {
             padding: 1rem;
             border-radius: 0.5rem;
@@ -172,6 +224,7 @@
             font-weight: 500;
             text-align: center;
         }
+
         .alert-error {
             background-color: #FEF2F2;
             color: #991B1B;
@@ -179,6 +232,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Sección de Login -->
@@ -195,7 +249,8 @@
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" class="form-control" required placeholder="••••••••">
                 </div>
-                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem; padding: 1rem;">Iniciar Sesión</button>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem; padding: 1rem;">Iniciar
+                    Sesión</button>
             </form>
         </div>
     </div>
@@ -235,12 +290,12 @@
                 <h2 id="form-title">Nuevo Producto</h2>
                 <form id="product-form">
                     <input type="hidden" id="prod-id">
-                    
+
                     <div class="form-group">
                         <label for="prod-name">Nombre del Producto</label>
                         <input type="text" id="prod-name" class="form-control" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="prod-price">Precio</label>
                         <input type="number" id="prod-price" class="form-control" required>
@@ -259,9 +314,10 @@
 
                     <div class="form-group">
                         <label for="prod-image">URL de Imagen</label>
-                        <input type="text" id="prod-image" class="form-control" placeholder="./img/producto.svg" required>
+                        <input type="text" id="prod-image" class="form-control" placeholder="./img/producto.svg"
+                            required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="prod-desc">Descripción</label>
                         <textarea id="prod-desc" class="form-control" rows="3" required></textarea>
@@ -269,7 +325,8 @@
 
                     <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                         <button type="submit" class="btn" style="flex: 1;">Guardar Producto</button>
-                        <button type="button" id="cancel-edit-btn" class="btn hidden" style="flex: 1; background-color: var(--text-light);">Cancelar</button>
+                        <button type="button" id="cancel-edit-btn" class="btn hidden"
+                            style="flex: 1; background-color: var(--text-light);">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -279,4 +336,5 @@
     <!-- Script de Admin -->
     <script src="./js/admin.js"></script>
 </body>
+
 </html>
