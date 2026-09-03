@@ -180,12 +180,12 @@ app.delete('/api/products/:id', verifyAdmin, (req, res) => {
 // --- RUTA DE CONTACTO ---
 app.post('/api/contact', (req, res) => {
     const { name, email, message } = req.body;
-    if (!name || !email) {
-        return res.status(400).json({ error: 'Nombre y email son requeridos' });
+    if (!name) {
+        return res.status(400).json({ error: 'El nombre es requerido' });
     }
     db.run(
         'INSERT INTO contact_leads (name, email, message) VALUES (?, ?, ?)',
-        [name, email, message || ''],
+        [name, email || '', message || ''],
         function (err) {
             if (err) return res.status(500).json({ error: err.message });
             res.status(201).json({ message: 'Lead guardado', id: this.lastID });

@@ -10,10 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
         const message = document.getElementById('message').value.trim();
 
-        if (!name || !email || !message) return;
+        if (!name || !message) return;
 
         // --- Estado de carga en el botón ---
         submitBtn.disabled = true;
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await fetch('http://localhost:3000/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, message })
+                body: JSON.stringify({ name, message })
             });
         } catch (err) {
             // Si falla el guardado, igual abre WhatsApp. El usuario no se ve afectado.
