@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Close mobile menu if open
-        if (navMenu.classList.contains('open')) {
+        if (navMenu && navMenu.classList.contains('open')) {
             toggleMenu();
         }
     }
@@ -48,13 +48,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile Menu Toggle
     function toggleMenu() {
-        menuBtn.classList.toggle('open');
+        if (!menuBtn || !navMenu) return;
+        const isOpen = menuBtn.classList.toggle('open');
         navMenu.classList.toggle('open');
+        document.body.classList.toggle('no-scroll', isOpen);
+        menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
 
     if (menuBtn) {
         menuBtn.addEventListener('click', toggleMenu);
     }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navMenu && navMenu.classList.contains('open')) {
+            if (!navMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                toggleMenu();
+            }
+        }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu && navMenu.classList.contains('open')) {
+            toggleMenu();
+        }
+    });
 
     // Initial load route
     navigateTo('inicio');

@@ -31,6 +31,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Utilidades */
@@ -41,7 +42,8 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2rem 1.5rem;
+            width: 100%;
         }
 
         /* Tipografía */
@@ -49,6 +51,7 @@
         h2 {
             color: var(--text-main);
             margin-bottom: 1.5rem;
+            word-break: break-word;
         }
 
         /* Botones */
@@ -57,11 +60,17 @@
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
+            min-height: 44px;
             border-radius: 0.5rem;
             cursor: pointer;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
         }
 
         .btn:hover {
@@ -78,8 +87,9 @@
         }
 
         .btn-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
+            padding: 0.5rem 0.85rem;
+            min-height: 38px;
+            font-size: 0.85rem;
         }
 
         /* Formularios */
@@ -98,10 +108,11 @@
         .form-control {
             width: 100%;
             padding: 0.75rem 1rem;
+            min-height: 44px;
             border: 1px solid var(--border);
             border-radius: 0.5rem;
             transition: all 0.2s;
-            font-size: 0.875rem;
+            font-size: 1rem; /* 16px to prevent iOS auto-zoom */
             background-color: #F9FAFB;
         }
 
@@ -112,12 +123,24 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .form-actions .btn {
+            flex: 1 1 140px;
+        }
+
         /* Pantalla de Login */
         #login-section {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            padding: 1.5rem 1rem;
             background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
         }
 
@@ -127,13 +150,14 @@
             border-radius: 1rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
         }
 
         .login-card h2 {
             text-align: center;
             color: var(--text-main);
             margin-bottom: 2rem;
+            font-size: 1.5rem;
         }
 
         /* Panel de Control */
@@ -150,6 +174,7 @@
             padding: 1.5rem 2rem;
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            gap: 1rem;
         }
 
         .header h1 {
@@ -164,26 +189,25 @@
             align-items: start;
         }
 
-        @media (max-width: 1024px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .card {
             background: var(--surface);
             padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
 
         /* Tabla de Productos */
         .table-responsive {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            padding-bottom: 0.5rem;
         }
 
         table {
             width: 100%;
+            min-width: 580px;
             border-collapse: collapse;
             text-align: left;
         }
@@ -192,6 +216,7 @@
         td {
             padding: 1rem;
             border-bottom: 1px solid var(--border);
+            vertical-align: middle;
         }
 
         th {
@@ -214,6 +239,7 @@
         .actions {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .alert {
@@ -229,6 +255,56 @@
             background-color: #FEF2F2;
             color: #991B1B;
             border: 1px solid #F87171;
+        }
+
+        /* Media Queries Responsivas */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+
+            #admin-section {
+                padding-top: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1.25rem 1rem;
+                gap: 1rem;
+                border-radius: 0.75rem;
+            }
+
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .header #logout-btn {
+                width: 100%;
+            }
+
+            .card {
+                padding: 1.25rem 1rem;
+                border-radius: 0.75rem;
+            }
+
+            .card h2 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+
+            .login-card {
+                padding: 2rem 1.25rem;
+                border-radius: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -323,10 +399,10 @@
                         <textarea id="prod-desc" class="form-control" rows="3" required></textarea>
                     </div>
 
-                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                        <button type="submit" class="btn" style="flex: 1;">Guardar Producto</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Guardar Producto</button>
                         <button type="button" id="cancel-edit-btn" class="btn hidden"
-                            style="flex: 1; background-color: var(--text-light);">Cancelar</button>
+                            style="background-color: var(--text-light);">Cancelar</button>
                     </div>
                 </form>
             </div>

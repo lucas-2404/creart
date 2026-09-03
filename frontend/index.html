@@ -29,12 +29,7 @@
     <header class="header">
         <div class="header__container">
             <a href="#" class="header__logo" data-link="inicio">CreArt</a>
-            <nav class="header__nav">
-                <button class="header__menu-btn" aria-label="Abrir menú">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+            <nav class="header__nav" id="main-nav">
                 <ul class="header__menu">
                     <li><a href="#" data-link="inicio">Inicio</a></li>
                     <li><a href="#" data-link="productos">Productos</a></li>
@@ -52,6 +47,11 @@
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                     <span class="header__cart-badge" id="cart-badge">0</span>
+                </button>
+                <button class="header__menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
