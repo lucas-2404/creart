@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Guardar lead en segundo plano (no bloquea la experiencia) ---
         try {
-            await fetch('http://localhost:3000/api/contact', {
+            const apiUrl = window.API_URL || 'http://localhost:3000/api';
+            await fetch(`${apiUrl}/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, message })

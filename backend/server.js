@@ -9,7 +9,7 @@ const db = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const SECRET_KEY = 'tu_secreto_super_seguro';
+const SECRET_KEY = process.env.SECRET_KEY || 'tu_secreto_super_seguro';
 
 // Carpeta de almacenamiento de imágenes
 const imgDir = path.join(__dirname, 'img');
@@ -52,8 +52,16 @@ app.use(express.urlencoded({ extended: true }));
 // Servir la carpeta de imágenes públicamente
 app.use('/img', express.static(imgDir));
 
-// Servir los archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
+// Servir los archivos estáticos del frontend (si existe en el directorio de ejecución local)
+const frontendDir = path.join(__dirname, '../frontend');
+if (fs.existsSync(frontendDir)) {
+    app.use(express.static(frontendDir));
+}
+
+// Endpoint de salud útil para plataformas de hosting (Render / Railway)
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', service: 'creart-backend', timestamp: new Date() });
+});
 
 // --- MIDDLEWARE DE AUTENTICACIÓN Y ROL ---
 const verifyAdmin = (req, res, next) => {

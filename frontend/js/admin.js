@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageCurrentInfo = document.getElementById('image-current-info');
     const prodDescInput = document.getElementById('prod-desc');
 
-    // URL BASE ESTRICTA
-    const API_URL = 'http://localhost:3000/api';
+    // URL BASE DINÁMICA (Localhost vs Producción)
+    const API_URL = window.API_URL || 'http://localhost:3000/api';
 
     checkAuthStatus();
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         try {
-            const res = await fetch('http://localhost:3000/api/auth/login', {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function resolveImageUrl(imagePath) {
+        if (typeof window.resolveImageUrl === 'function') {
+            return window.resolveImageUrl(imagePath);
+        }
         if (!imagePath) return './img/logocreart.png';
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
             return imagePath;
@@ -84,10 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (imagePath.startsWith('./img/')) {
             return imagePath;
         }
+        const backendUrl = window.BACKEND_URL || 'http://localhost:3000';
         if (imagePath.startsWith('/img/')) {
-            return window.location.port === '3000' ? imagePath : `http://localhost:3000${imagePath}`;
+            return `${backendUrl}${imagePath}`;
         }
-        return `http://localhost:3000/img/${imagePath}`;
+        return `${backendUrl}/img/${imagePath}`;
     }
 
     async function fetchProducts() {

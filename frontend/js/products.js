@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtns = document.querySelectorAll('.filter-btn');
 
     function resolveImageUrl(imagePath) {
+        if (typeof window.resolveImageUrl === 'function') {
+            return window.resolveImageUrl(imagePath);
+        }
         if (!imagePath) return './img/logocreart.png';
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
             return imagePath;
@@ -12,10 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (imagePath.startsWith('./img/')) {
             return imagePath;
         }
+        const backendUrl = window.BACKEND_URL || 'http://localhost:3000';
         if (imagePath.startsWith('/img/')) {
-            return window.location.port === '3000' ? imagePath : `http://localhost:3000${imagePath}`;
+            return `${backendUrl}${imagePath}`;
         }
-        return `http://localhost:3000/img/${imagePath}`;
+        return `${backendUrl}/img/${imagePath}`;
     }
 
     // Render Product Card

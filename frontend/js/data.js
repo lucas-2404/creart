@@ -3,7 +3,8 @@ var productsData = [];
 
 async function loadProducts() {
     try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const apiUrl = window.API_URL || 'http://localhost:3000/api';
+        const response = await fetch(`${apiUrl}/products`);
         const result = await response.json();
         if (result.message === 'success') {
             productsData = result.data;

@@ -2,7 +2,8 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-const dbPath = path.resolve(__dirname, 'database.sqlite');
+// Ruta segura a la base de datos SQLite apuntando a __dirname (con soporte opcional para variables de entorno de volúmenes persistentes)
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'database.sqlite');
 
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
