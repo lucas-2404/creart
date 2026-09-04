@@ -3,7 +3,7 @@ var productsData = [];
 
 async function loadProducts() {
     try {
-        const apiUrl = window.API_URL || 'http://localhost:3000/api';
+        const apiUrl = window.API_URL || 'https://creart-backend.onrender.com/api';
         const response = await fetch(`${apiUrl}/products`);
         const result = await response.json();
         if (result.message === 'success') {

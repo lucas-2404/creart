@@ -1,25 +1,17 @@
-// js/config.js — Configuración dinámica de entorno (Desarrollo vs Producción)
+// js/config.js — Configuración para Producción (Vercel + Render)
 
 (function () {
-    // Detección automática de entorno local (localhost o 127.0.0.1)
-    const isLocalhost = Boolean(
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1' ||
-        window.location.hostname === '[::1]'
-    );
+    // =========================================================================
+    // CONFIGURACIÓN DE PRODUCCIÓN - RENDER & VERCEL
+    // =========================================================================
+    const RENDER_BACKEND_URL = 'https://creart-backend.onrender.com';
+    const RENDER_API_URL = `${RENDER_BACKEND_URL}/api`;
 
-    // =========================================================================
-    // CONFIGURACIÓN DE URLs
-    // =========================================================================
-    // En desarrollo local apunta a http://localhost:3000.
-    // En producción (ej. Vercel), cambiar 'https://creart-backend.onrender.com' por la URL de tu backend en Render o Railway.
-    // También puedes sobreescribirla en caliente desde la consola o navegador con:
-    //   localStorage.setItem('creart_backend_url', 'https://tu-backend.up.railway.app')
-    // =========================================================================
-    const PROD_BACKEND_URL = 'https://creart-backend.onrender.com';
-
+    // Permite sobreescritura dinámica si se requiere (por ejemplo: desarrollo local explícito con localStorage)
     const customBackendUrl = window.CUSTOM_BACKEND_URL || localStorage.getItem('creart_backend_url');
-    const BACKEND_URL = customBackendUrl || (isLocalhost ? 'http://localhost:3000' : PROD_BACKEND_URL);
+    const isLocalExplicit = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && localStorage.getItem('use_local_backend') === 'true';
+
+    const BACKEND_URL = customBackendUrl || (isLocalExplicit ? 'http://localhost:3000' : RENDER_BACKEND_URL);
     const API_URL = `${BACKEND_URL}/api`;
 
     /**
@@ -54,5 +46,5 @@
     window.API_URL = API_URL;
     window.resolveImageUrl = resolveImageUrl;
 
-    console.log(`[Creart Config] Modo: ${isLocalhost ? 'Desarrollo (Local)' : 'Producción'} | Backend: ${BACKEND_URL}`);
+    console.log(`[Creart Config] Conectado a la API: ${API_URL}`);
 })();

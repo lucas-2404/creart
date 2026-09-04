@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (imagePath.startsWith('./img/')) {
             return imagePath;
         }
-        const backendUrl = window.BACKEND_URL || 'http://localhost:3000';
+        const backendUrl = window.BACKEND_URL || 'https://creart-backend.onrender.com';
         if (imagePath.startsWith('/img/')) {
             return `${backendUrl}${imagePath}`;
         }

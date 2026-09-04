@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageCurrentInfo = document.getElementById('image-current-info');
     const prodDescInput = document.getElementById('prod-desc');
 
-    // URL BASE DINÁMICA (Localhost vs Producción)
-    const API_URL = window.API_URL || 'http://localhost:3000/api';
+    // URL BASE DE PRODUCCIÓN (Render)
+    const API_URL = window.API_URL || 'https://creart-backend.onrender.com/api';
 
     checkAuthStatus();
 
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (imagePath.startsWith('./img/')) {
             return imagePath;
         }
-        const backendUrl = window.BACKEND_URL || 'http://localhost:3000';
+        const backendUrl = window.BACKEND_URL || 'https://creart-backend.onrender.com';
         if (imagePath.startsWith('/img/')) {
             return `${backendUrl}${imagePath}`;
         }
